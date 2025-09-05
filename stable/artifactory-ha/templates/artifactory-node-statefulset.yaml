@@ -263,12 +263,12 @@ spec:
 
         {{- if and (eq (include "artifactory-ha.awsS3V3SecretsConfigured" .) "true") (not .Values.artifactory.persistence.customBinarystoreXmlSecret) }}
         {{- with .Values.artifactory.persistence.awsS3V3.identitySecret }}
-        - name: aws-s3-v3-cred
+        - name: aws-s3-v3-identity-cred
           mountPath: {{ printf "/tmp/%s/%s" .name .key }}
           subPath: {{ .key }}
         {{- end }}
         {{- with .Values.artifactory.persistence.awsS3V3.credentialSecret }}
-        - name: aws-s3-v3-cred
+        - name: aws-s3-v3-credential-cred
           mountPath: {{ printf "/tmp/%s/%s" .name .key }}
           subPath: {{ .key }}
         {{- end }}
@@ -1868,10 +1868,14 @@ spec:
         secret:
           secretName: {{ template "artifactory-ha.fullname" . }}-binarystore
       {{- end }}
-       # aws-s3-v3-cred secret
       {{- if and (eq (include "artifactory-ha.awsS3V3SecretsConfigured" .) "true") (not .Values.artifactory.persistence.customBinarystoreXmlSecret) }}
         {{- with .Values.artifactory.persistence.awsS3V3.identitySecret }}
-      - name: aws-s3-v3-cred
+      - name: aws-s3-v3-identity-cred
+        secret:
+          secretName: {{ .name }}
+        {{- end }}
+        {{- with .Values.artifactory.persistence.awsS3V3.credentialSecret }}
+      - name: aws-s3-v3-credential-cred
         secret:
           secretName: {{ .name }}
         {{- end }}

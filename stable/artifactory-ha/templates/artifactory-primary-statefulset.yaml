@@ -1935,12 +1935,12 @@ spec:
       {{- end }}
       {{- if and (eq (include "artifactory-ha.awsS3V3SecretsConfigured" .) "true") (not .Values.artifactory.persistence.customBinarystoreXmlSecret) }}
         {{- with .Values.artifactory.persistence.awsS3V3.identitySecret }}
-      - name: aws-s3-v3-cred
+      - name: aws-s3-v3-identity-cred
         secret:
           secretName: {{ .name }}
         {{- end }}
         {{- with .Values.artifactory.persistence.awsS3V3.credentialSecret }}
-      - name: aws-s3-v3-cred
+      - name: aws-s3-v3-credential-cred
         secret:
           secretName: {{ .name }}
         {{- end }}
